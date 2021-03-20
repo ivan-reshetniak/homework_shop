@@ -2,9 +2,8 @@ package ua.com.shop.dao;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.transaction.annotation.Transactional;
 import ua.com.shop.exception.ProductNotFoundException;
-import ua.com.shop.model.OrderItems;
+import ua.com.shop.model.OrderItem;
 import ua.com.shop.model.Product;
 import ua.com.shop.model.ProductInfo;
 
@@ -21,7 +20,6 @@ public class ProductDaoImpl implements ProductDao {
     private EntityManager em;
 
     @Override
-    @Transactional
     public void addProduct(Product product) {
         em.persist(product);
         LOGGER.info("Product created, id = {}", product.getId());
@@ -53,7 +51,7 @@ public class ProductDaoImpl implements ProductDao {
     public List<ProductInfo> getAllProductsWithTotalOrderedQuantity() {
         List<ProductInfo> products;
         TypedQuery<ProductInfo> query = em.createQuery(
-                "select new ua.com.shop.model.ProductInfo (pr, sum(oi.quantity)) from OrderItems oi " +
+                "select new ua.com.shop.model.ProductInfo (pr, sum(oi.quantity)) from OrderItem oi " +
                         "inner join Product pr " +
                         "on oi.product.id = pr.id " +
                         "group by oi.product.id, pr.id " +
@@ -67,35 +65,20 @@ public class ProductDaoImpl implements ProductDao {
     @Override
     public void delete(int id) {
         Product product = em.find(Product.class, (long) id);
-        try {
-            em.getTransaction().begin();
+        TypedQuery<OrderItem> query = em.createQuery(
+                "select oi from OrderItem oi " +
+                        "where oi.product.id = " + id, OrderItem.class
+        );
 
-            TypedQuery<OrderItems> query = em.createQuery(
-                    "select oi from OrderItems oi " +
-                            "where oi.product.id = " + id, OrderItems.class
-            );
-
-            List<OrderItems> orderItems = query.getResultList();
-            orderItems.forEach(o -> {
-                em.remove(o.getOrder());
-            });
-
-            em.remove(product);
-            em.getTransaction().commit();
-        } catch (Exception e) {
-            em.getTransaction().rollback();
-            e.printStackTrace();
-        }
+        List<OrderItem> orderItems = query.getResultList();
+        orderItems.forEach(o -> em.remove(o.getOrder()));
+        em.remove(product);
     }
 
     @Override
     public void deleteAll() {
         List<Product> products = getAll();
         products.forEach(product -> delete((int) product.getId()));
-    }
-
-    public void setEm(EntityManager em) {
-        this.em = em;
     }
 }
 

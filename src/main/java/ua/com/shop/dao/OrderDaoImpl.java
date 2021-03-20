@@ -2,7 +2,6 @@ package ua.com.shop.dao;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.transaction.annotation.Transactional;
 import ua.com.shop.exception.OrderNotFoundException;
 import ua.com.shop.model.Order;
 import ua.com.shop.model.OrderInfo;
@@ -19,7 +18,6 @@ public class OrderDaoImpl implements OrderDao {
     private EntityManager em;
 
     @Override
-    @Transactional
     public void addOrder(Order order) {
         try {
             em.persist(order);
@@ -51,7 +49,7 @@ public class OrderDaoImpl implements OrderDao {
         TypedQuery<OrderInfo> query = em.createQuery(
                 "select new ua.com.shop.model.OrderInfo (o.id, pr.price * oi.quantity, pr.name, oi.quantity, o.createdAt) " +
                         "from Order o " +
-                        "inner join OrderItems oi " +
+                        "inner join OrderItem oi " +
                         "on o.id = oi.order.id " +
                         "inner join Product pr " +
                         "on oi.product.id = pr.id " +

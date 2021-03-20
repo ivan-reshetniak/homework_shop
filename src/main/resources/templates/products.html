@@ -11,23 +11,24 @@
     <th>Product price</th>
     <th>Product status</th>
     <th>Product date creation</th>
-        <tr th:each="p : ${products}">
-            <td th:utext ="${p.id}">...</td>
-            <td th:utext ="${p.name}">...</td>
-            <td th:utext ="${p.price}">...</td>
-            <td th:utext ="${p.status}">...</td>
-            <td>
-                <form method="post" action="/products">
-                    <button>Delete</button>
-                    <input type="hidden" name="id" value="${p.id}"/>
-                </form>
-            </td>
-        </tr>
+    <tr th:each="p : ${products}">
+        <td th:utext="${p.id}">...</td>
+        <td th:utext="${p.name}">...</td>
+        <td th:utext="${p.price}">...</td>
+        <td th:utext="${p.status}">...</td>
+        <td th:utext="${p.createdAt}">...</td>
+        <td>
+            <form action="#" th:action="@{products}" method="post">
+                <button>Delete</button>
+                <input type="hidden" name="id" th:value="${p.id}"/>
+            </form>
+        </td>
+    </tr>
 </table>
-<form action="/products" method="post">
+<form action="#" th:action="@{products/deleteAll}" method="post">
     <button type="submit" name="delete" value="true">Delete all products</button>
 </form>
-<br/><a href="/products?additionalInfo=true">Additional information</a>
+<br/><a href="/products/additionalInfo">Additional information</a>
 <br/><a th:href="@{/}">Home page</a>
 </body>
 </html>

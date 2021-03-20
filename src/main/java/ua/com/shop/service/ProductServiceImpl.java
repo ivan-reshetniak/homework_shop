@@ -1,7 +1,7 @@
 package ua.com.shop.service;
 
+import org.springframework.transaction.annotation.Transactional;
 import ua.com.shop.dao.ProductDao;
-import ua.com.shop.dao.ProductDaoImpl;
 import ua.com.shop.model.Product;
 import ua.com.shop.model.ProductInfo;
 import ua.com.shop.model.ProductStatus;
@@ -11,9 +11,14 @@ import java.util.List;
 
 public class ProductServiceImpl implements ProductService {
 
-    private ProductDao productDao = new ProductDaoImpl();
+    private ProductDao productDao;
+
+    public ProductServiceImpl(ProductDao productDao) {
+        this.productDao = productDao;
+    }
 
     @Override
+    @Transactional
     public void addProduct(String name, int price, ProductStatus status) {
         Product product = new Product();
         product.setName(name);
@@ -39,16 +44,15 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional
     public void deleteProduct(int id) {
         productDao.delete(id);
     }
 
     @Override
+    @Transactional
     public void deleteAll() {
         productDao.deleteAll();
     }
 
-    public void setProductDao(ProductDao productDao) {
-        this.productDao = productDao;
-    }
 }

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Product additional info</title>
+</head>
+<body>
+<table border="1">
+    <th>Product id</th>
+    <th>Product name</th>
+    <th>Product price</th>
+    <th>Product status</th>
+    <th>Product date creation</th>
+    <th>Product total ordered quantity</th>
+    <tr th:each="p : ${productInfos}">
+        <td th:utext="${p.product.id}">...</td>
+        <td th:utext="${p.product.name}">...</td>
+        <td th:utext="${p.product.price}">...</td>
+        <td th:utext="${p.product.status}">...</td>
+        <td th:utext="${p.product.createdAt}">...</td>
+        <td th:utext="${p.totalQuantity}">...</td>
+    </tr>
+</table>
+<br/><a href="/products">Show products</a>
+<br/><a href="/">Home page</a>
+</body>
+</html>

@@ -2,12 +2,11 @@ package ua.com.shop.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.transaction.annotation.Transactional;
 import ua.com.shop.dao.OrderDao;
-import ua.com.shop.dao.OrderDaoImpl;
-import ua.com.shop.exception.OrderNotFoundException;
 import ua.com.shop.model.Order;
 import ua.com.shop.model.OrderInfo;
-import ua.com.shop.model.OrderItems;
+import ua.com.shop.model.OrderItem;
 import ua.com.shop.model.OrderStatus;
 import ua.com.shop.model.Product;
 
@@ -20,8 +19,13 @@ import java.util.Set;
 public class OrderServiceImpl implements OrderService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(OrderServiceImpl.class);
-    private OrderDao orderDao = new OrderDaoImpl();
-    private ProductServiceImpl productService = new ProductServiceImpl();
+    private OrderDao orderDao;
+    private ProductServiceImpl productService;
+
+    public OrderServiceImpl(OrderDao orderDao, ProductServiceImpl productService) {
+        this.orderDao = orderDao;
+        this.productService = productService;
+    }
 
     @Override
     public Order getOrderById(int orderId) {
@@ -34,6 +38,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public void addOrder(Map<Integer, Integer> productAndQuantity) {
         Order order = new Order();
         order.setStatus(OrderStatus.IN_PROCESS);
@@ -42,17 +47,9 @@ public class OrderServiceImpl implements OrderService {
 
         Set<Integer> productIds = productAndQuantity.keySet();
         productIds.forEach(id -> {
-            try {
+            if (productAndQuantity.get(id) != 0) {
                 Product product = productService.getProductById(id);
-
-                OrderItems orderItems = new OrderItems();
-                orderItems.setOrder(order);
-                orderItems.setProduct(product);
-                orderItems.setQuantity(productAndQuantity.get(id));
-
-                order.getOrderItems().add(orderItems);
-            } catch (OrderNotFoundException e) {
-                LOGGER.info("Product with id = {} does not exist", id);
+                order.getOrderItems().add(createOrderItem(product, order, productAndQuantity.get(id)));
             }
         });
         orderDao.addOrder(order);
@@ -64,11 +61,11 @@ public class OrderServiceImpl implements OrderService {
         return orderDao.getOrdersInformation();
     }
 
-    public void setOrderDao(OrderDao orderDao) {
-        this.orderDao = orderDao;
-    }
-
-    public void setProductService(ProductServiceImpl productService) {
-        this.productService = productService;
+    private OrderItem createOrderItem(Product product, Order order, int quantity) {
+        OrderItem orderItem = new OrderItem();
+        orderItem.setOrder(order);
+        orderItem.setProduct(product);
+        orderItem.setQuantity(quantity);
+        return orderItem;
     }
 }

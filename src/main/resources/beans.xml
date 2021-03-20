@@ -8,44 +8,31 @@
   </bean>
 
   <bean class="ua.com.shop.dao.ProductDaoImpl" id="productDao">
-<!--    <property name="em" ref="entityManagerFactory"></property>-->
   </bean>
+
   <bean class="ua.com.shop.service.ProductServiceImpl" id="productService">
-    <property name="productDao" ref="productDao"></property>
+    <constructor-arg name="productDao" ref="productDao"/>
   </bean>
+
   <bean class="ua.com.shop.controller.ProductController" id="productController">
-    <property name="productService" ref="productService"></property>
+    <constructor-arg name="productService" ref="productService"/>
   </bean>
+
   <bean class="ua.com.shop.dao.OrderDaoImpl" id="orderDao">
-<!--    <property name="em" ref="entityManagerFactory"></property>-->
   </bean>
+
   <bean class="ua.com.shop.service.OrderServiceImpl" id="orderService">
-    <property name="orderDao" ref="orderDao"></property>
-    <property name="productService" ref="productService"></property>
+    <constructor-arg name="orderDao" ref="orderDao"/>
+    <constructor-arg name="productService" ref="productService"/>
   </bean>
+
+  <bean class="ua.com.shop.controller.OrderController" id="orderController">
+    <constructor-arg name="productService" ref="productService"/>
+    <constructor-arg name="orderService" ref="orderService"/>
+  </bean>
+
   <bean class="ua.com.shop.controller.MainController"/>
 
-  <!--  <bean id="viewResolver" name="viewResolver2"-->
-  <!--        class="org.springframework.web.servlet.view.InternalResourceViewResolver">-->
-  <!--    <property name="prefix" value="/webapp/WEB-INF/view/"/>-->
-  <!--    <property name="suffix" value=""/>-->
-  <!--  </bean>-->
-
   <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>
-
-<!--    <bean id="entityManagerFactory"-->
-<!--          class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">-->
-<!--      <property name="dataSource" ref="dataSource"/>-->
-<!--      <property name="jpaVendorAdapter">-->
-<!--        <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>-->
-<!--      </property>-->
-<!--      <property name="jpaProperties">-->
-<!--        <props>-->
-<!--          <prop key="hibernate.dialect">org.hibernate.dialect.HSQLDialect</prop>-->
-<!--          <prop key="hibernate.show_sql">true</prop>-->
-<!--          <prop key="hibernate.hbm2ddl.auto">update</prop>-->
-<!--        </props>-->
-<!--      </property>-->
-<!--    </bean>-->
 
 </beans>

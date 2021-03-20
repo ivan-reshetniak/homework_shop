@@ -1,4 +1,4 @@
-package ua.com.shop.configuration;
+package ua.com.shop.util;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;

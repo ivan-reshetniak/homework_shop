@@ -44,5 +44,5 @@ public class Order {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "order", fetch = FetchType.LAZY)
-    private Set<OrderItems> orderItems = new HashSet<>();
+    private Set<OrderItem> orderItems = new HashSet<>();
 }

@@ -12,7 +12,7 @@ import java.io.Serializable;
 @Setter
 @Table(name = "order_items")
 @EqualsAndHashCode
-public class OrderItems implements Serializable {
+public class OrderItem implements Serializable {
 
     @Id
     @ManyToOne
