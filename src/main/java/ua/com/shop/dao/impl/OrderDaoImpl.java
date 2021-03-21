@@ -1,7 +1,8 @@
-package ua.com.shop.dao;
+package ua.com.shop.dao.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ua.com.shop.dao.OrderDao;
 import ua.com.shop.exception.OrderNotFoundException;
 import ua.com.shop.model.Order;
 import ua.com.shop.model.OrderInfo;

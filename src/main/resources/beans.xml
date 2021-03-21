@@ -7,10 +7,10 @@
     <property name="locations" value="classpath:/application.properties"/>
   </bean>
 
-  <bean class="ua.com.shop.dao.ProductDaoImpl" id="productDao">
+  <bean class="ua.com.shop.dao.impl.ProductDaoImpl" id="productDao">
   </bean>
 
-  <bean class="ua.com.shop.service.ProductServiceImpl" id="productService">
+  <bean class="ua.com.shop.service.impl.ProductServiceImpl" id="productService">
     <constructor-arg name="productDao" ref="productDao"/>
   </bean>
 
@@ -18,10 +18,10 @@
     <constructor-arg name="productService" ref="productService"/>
   </bean>
 
-  <bean class="ua.com.shop.dao.OrderDaoImpl" id="orderDao">
+  <bean class="ua.com.shop.dao.impl.OrderDaoImpl" id="orderDao">
   </bean>
 
-  <bean class="ua.com.shop.service.OrderServiceImpl" id="orderService">
+  <bean class="ua.com.shop.service.impl.OrderServiceImpl" id="orderService">
     <constructor-arg name="orderDao" ref="orderDao"/>
     <constructor-arg name="productService" ref="productService"/>
   </bean>

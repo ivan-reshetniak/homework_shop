@@ -1,10 +1,11 @@
-package ua.com.shop.service;
+package ua.com.shop.service.impl;
 
 import org.springframework.transaction.annotation.Transactional;
 import ua.com.shop.dao.ProductDao;
 import ua.com.shop.model.Product;
 import ua.com.shop.model.ProductInfo;
 import ua.com.shop.model.ProductStatus;
+import ua.com.shop.service.ProductService;
 
 import java.time.LocalDateTime;
 import java.util.List;

@@ -1,4 +1,4 @@
-package ua.com.shop.service;
+package ua.com.shop.service.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +9,8 @@ import ua.com.shop.model.OrderInfo;
 import ua.com.shop.model.OrderItem;
 import ua.com.shop.model.OrderStatus;
 import ua.com.shop.model.Product;
+import ua.com.shop.service.OrderService;
+import ua.com.shop.service.ProductService;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -20,9 +22,9 @@ public class OrderServiceImpl implements OrderService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(OrderServiceImpl.class);
     private OrderDao orderDao;
-    private ProductServiceImpl productService;
+    private ProductService productService;
 
-    public OrderServiceImpl(OrderDao orderDao, ProductServiceImpl productService) {
+    public OrderServiceImpl(OrderDao orderDao, ProductService productService) {
         this.orderDao = orderDao;
         this.productService = productService;
     }
