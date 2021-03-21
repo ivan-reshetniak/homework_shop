@@ -28,7 +28,7 @@
 <form action="#" th:action="@{products/deleteAll}" method="post">
     <button type="submit" name="delete" value="true">Delete all products</button>
 </form>
-<br/><a href="/products/additionalInfo">Additional information</a>
+<br/><a th:href="@{/products/additionalInfo}">Additional information</a>
 <br/><a th:href="@{/}">Home page</a>
 </body>
 </html>

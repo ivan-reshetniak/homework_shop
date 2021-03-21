@@ -21,7 +21,7 @@
         <td th:utext="${p.totalQuantity}">...</td>
     </tr>
 </table>
-<br/><a href="/products">Show products</a>
-<br/><a href="/">Home page</a>
+<br/><a th:href="@{/products}">Show products</a>
+<br/><a th:href="@{/}">Home page</a>
 </body>
 </html>
