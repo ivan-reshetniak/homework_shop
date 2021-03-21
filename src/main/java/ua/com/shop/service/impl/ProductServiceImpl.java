@@ -2,6 +2,7 @@ package ua.com.shop.service.impl;
 
 import org.springframework.transaction.annotation.Transactional;
 import ua.com.shop.dao.ProductDao;
+import ua.com.shop.exception.ProductNotFoundException;
 import ua.com.shop.model.Product;
 import ua.com.shop.model.ProductInfo;
 import ua.com.shop.model.ProductStatus;
@@ -30,8 +31,9 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product getProductById(int productId) {
-        return productDao.getProductById(productId);
+    public Product getProductById(long productId) {
+        return productDao.getProductById(productId)
+                .orElseThrow(() -> new ProductNotFoundException("Product not found"));
     }
 
     @Override

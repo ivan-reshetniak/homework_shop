@@ -33,6 +33,11 @@
 
   <bean class="ua.com.shop.controller.MainController"/>
 
+  <bean class="ua.com.shop.service.impl.MainService" id="mainService">
+    <constructor-arg name="productService" ref="productService"/>
+    <constructor-arg name="orderService" ref="orderService"/>
+  </bean>
+
   <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>
 
 </beans>

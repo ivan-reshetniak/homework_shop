@@ -13,6 +13,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class ProductDaoImpl implements ProductDao {
 
@@ -27,12 +28,12 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
-    public Product getProductById(int id) {
-        Product product = em.find(Product.class, (long) id);
+    public Optional<Product> getProductById(long id) {
+        Product product = em.find(Product.class, id);
         if (product == null) {
-            throw new ProductNotFoundException("Product not found");
+            return Optional.empty();
         }
-        return product;
+        return Optional.of(product);
     }
 
     @Override

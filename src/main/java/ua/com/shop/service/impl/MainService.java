@@ -1,7 +1,5 @@
 package ua.com.shop.service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import ua.com.shop.model.ProductStatus;
 import ua.com.shop.service.OrderService;
 import ua.com.shop.service.ProductService;
@@ -9,13 +7,15 @@ import ua.com.shop.service.ProductService;
 import java.util.HashMap;
 import java.util.Map;
 
-@Component
 public class MainService {
 
-    @Autowired
     private ProductService productService;
-    @Autowired
     private OrderService orderService;
+
+    public MainService(ProductService productService, OrderService orderService) {
+        this.productService = productService;
+        this.orderService = orderService;
+    }
 
     public void addTestData() {
         productService.addProduct("ps5", 500, ProductStatus.IN_STOCK);

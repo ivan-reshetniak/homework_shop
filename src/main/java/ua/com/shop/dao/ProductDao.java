@@ -4,12 +4,13 @@ import ua.com.shop.model.Product;
 import ua.com.shop.model.ProductInfo;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ProductDao {
 
     void addProduct(Product product);
 
-    Product getProductById(int id);
+    Optional<Product> getProductById(long id);
 
     List<Product> getAll();
 
