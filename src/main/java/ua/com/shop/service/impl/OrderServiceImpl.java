@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 import ua.com.shop.dao.OrderDao;
+import ua.com.shop.exception.OrderEmptyException;
 import ua.com.shop.model.Order;
 import ua.com.shop.model.OrderInfo;
 import ua.com.shop.model.OrderItem;
@@ -54,6 +55,9 @@ public class OrderServiceImpl implements OrderService {
                 order.getOrderItems().add(createOrderItem(product, order, productAndQuantity.get(id)));
             }
         });
+        if (order.getOrderItems().isEmpty()) {
+            throw new OrderEmptyException("Order can not be empty");
+        }
         orderDao.addOrder(order);
         LOGGER.info("Order created {}", order);
     }
