@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Create new Product</title>
+</head>
+<body>
+<form action="#" th:action="@{createProduct}" th:object="${createProductDto}" method="post">
+    <label>Name: <input type="text" th:field="*{name}"/></label><br/>
+    <label>Price: <input type="number" th:field="*{price}"/></label><br/>
+    <label>Product status:
+        <input type="radio" id="out_of_stock" th:field="*{status}" th:value="0">
+        <label for="out_of_stock">Out of stock</label>
+        <input type="radio" id="in_stock" th:field="*{status}" th:value="1">
+        <label for="in_stock">In stock</label>
+        <input type="radio" id="running_in_low" th:field="*{status}" th:value="2">
+        <label for="running_in_low">Running in low</label>
+    </label><br>
+    <input type="submit" value="Create"/>
+</form>
+<br/><a th:href="@{/}">Home page</a>
+</body>
+</html>

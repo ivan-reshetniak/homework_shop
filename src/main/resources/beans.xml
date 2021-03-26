@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+  <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    <property name="locations" value="classpath:/application.properties"/>
+  </bean>
+
+  <bean class="ua.com.shop.dao.impl.ProductDaoImpl" id="productDao">
+  </bean>
+
+  <bean class="ua.com.shop.service.impl.ProductServiceImpl" id="productService">
+    <property name="productDao" ref="productDao"/>
+  </bean>
+
+  <bean class="ua.com.shop.controller.ProductController" id="productController">
+    <property name="productService" ref="productService"/>
+  </bean>
+
+  <bean class="ua.com.shop.dao.impl.OrderDaoImpl" id="orderDao">
+  </bean>
+
+  <bean class="ua.com.shop.service.impl.OrderServiceImpl" id="orderService">
+    <property name="orderDao" ref="orderDao"/>
+    <property name="productService" ref="productService"/>
+  </bean>
+
+  <bean class="ua.com.shop.controller.OrderController" id="orderController">
+    <property name="orderService" ref="orderService"/>
+    <property name="productService" ref="productService"/>
+  </bean>
+
+  <bean class="ua.com.shop.controller.MainController"/>
+
+  <bean class="ua.com.shop.service.impl.MainService" id="mainService">
+    <property name="productService" ref="productService"/>
+    <property name="orderService" ref="orderService"/>
+  </bean>
+
+  <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>
+
+</beans>

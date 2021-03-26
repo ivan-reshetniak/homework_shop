@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Order information</title>
+</head>
+<body>
+<table border="1">
+    <th>Order id</th>
+    <th>Order total sum</th>
+    <th>Product name</th>
+    <th>Product quantity</th>
+    <th>Order date creation</th>
+    <tr th:each="o : ${orderInfos}">
+        <td th:utext="${o.orderId}">...</td>
+        <td th:utext="${o.totalSum}">...</td>
+        <td th:utext="${o.productName}">...</td>
+        <td th:utext="${o.quantity}">...</td>
+        <td th:utext="${o.createdAt}">...</td>
+    </tr>
+</table>
+<br/><a th:href="@{/orders}">Show all orders</a>
+<br/><a th:href="@{/}">Home page</a>
+</body>
+</html>

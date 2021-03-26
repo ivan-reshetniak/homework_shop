@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Create order</title>
+</head>
+<body>
+<form action="#" th:action="@{createOrder}" th:object="${createOrderDto}" method="post">
+    <table border="1">
+        <th>Product name</th>
+        <th>Product price</th>
+        <th>Product status</th>
+        <th>Quantity</th>
+        <tr th:each="p : ${products}">
+            <td th:utext="${p.name}">...</td>
+            <td th:utext="${p.price}">...</td>
+            <td th:utext="${p.status}">...</td>
+            <td>
+                <label th:for="${createOrderDto.productIdAndQuantity['__${p.id}__']}"></label>
+                <input type="number" th:field="*{productIdAndQuantity['__${p.id}__']}"/>
+            </td>
+        </tr>
+    </table>
+    <input type="submit" value="Create order">
+</form>
+<br/><a th:href="@{/}">Home Page</a>
+</body>
+</html>
