@@ -12,11 +12,6 @@ public class MainService {
     private ProductService productService;
     private OrderService orderService;
 
-    public MainService(ProductService productService, OrderService orderService) {
-        this.productService = productService;
-        this.orderService = orderService;
-    }
-
     public void addTestData() {
         productService.addProduct("ps5", 500, ProductStatus.IN_STOCK);
         productService.addProduct("xbox", 550, ProductStatus.OUT_OF_STOCK);
@@ -33,5 +28,13 @@ public class MainService {
 
         orderService.addOrder(productAndQuantity);
         orderService.addOrder(productAndQuantity1);
+    }
+
+    public void setProductService(ProductService productService) {
+        this.productService = productService;
+    }
+
+    public void setOrderService(OrderService orderService) {
+        this.orderService = orderService;
     }
 }

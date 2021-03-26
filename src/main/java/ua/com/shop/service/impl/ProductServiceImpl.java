@@ -15,10 +15,6 @@ public class ProductServiceImpl implements ProductService {
 
     private ProductDao productDao;
 
-    public ProductServiceImpl(ProductDao productDao) {
-        this.productDao = productDao;
-    }
-
     @Override
     @Transactional
     public void addProduct(String name, int price, ProductStatus status) {
@@ -58,4 +54,7 @@ public class ProductServiceImpl implements ProductService {
         productDao.deleteAll();
     }
 
+    public void setProductDao(ProductDao productDao) {
+        this.productDao = productDao;
+    }
 }

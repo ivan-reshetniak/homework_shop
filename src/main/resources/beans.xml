@@ -11,31 +11,31 @@
   </bean>
 
   <bean class="ua.com.shop.service.impl.ProductServiceImpl" id="productService">
-    <constructor-arg name="productDao" ref="productDao"/>
+    <property name="productDao" ref="productDao"/>
   </bean>
 
   <bean class="ua.com.shop.controller.ProductController" id="productController">
-    <constructor-arg name="productService" ref="productService"/>
+    <property name="productService" ref="productService"/>
   </bean>
 
   <bean class="ua.com.shop.dao.impl.OrderDaoImpl" id="orderDao">
   </bean>
 
   <bean class="ua.com.shop.service.impl.OrderServiceImpl" id="orderService">
-    <constructor-arg name="orderDao" ref="orderDao"/>
-    <constructor-arg name="productService" ref="productService"/>
+    <property name="orderDao" ref="orderDao"/>
+    <property name="productService" ref="productService"/>
   </bean>
 
   <bean class="ua.com.shop.controller.OrderController" id="orderController">
-    <constructor-arg name="productService" ref="productService"/>
-    <constructor-arg name="orderService" ref="orderService"/>
+    <property name="orderService" ref="orderService"/>
+    <property name="productService" ref="productService"/>
   </bean>
 
   <bean class="ua.com.shop.controller.MainController"/>
 
   <bean class="ua.com.shop.service.impl.MainService" id="mainService">
-    <constructor-arg name="productService" ref="productService"/>
-    <constructor-arg name="orderService" ref="orderService"/>
+    <property name="productService" ref="productService"/>
+    <property name="orderService" ref="orderService"/>
   </bean>
 
   <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>

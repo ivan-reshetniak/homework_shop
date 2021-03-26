@@ -25,11 +25,6 @@ public class OrderServiceImpl implements OrderService {
     private OrderDao orderDao;
     private ProductService productService;
 
-    public OrderServiceImpl(OrderDao orderDao, ProductService productService) {
-        this.orderDao = orderDao;
-        this.productService = productService;
-    }
-
     @Override
     public Order getOrderById(int orderId) {
         return orderDao.getOrderById(orderId);
@@ -51,7 +46,7 @@ public class OrderServiceImpl implements OrderService {
         Set<Integer> productIds = productAndQuantity.keySet();
         productIds.forEach(id -> {
             if (productAndQuantity.get(id) != 0) {
-                Product product = productService.getProductById(id);
+                final Product product = productService.getProductById(id);
                 order.getOrderItems().add(createOrderItem(product, order, productAndQuantity.get(id)));
             }
         });
@@ -73,5 +68,13 @@ public class OrderServiceImpl implements OrderService {
         orderItem.setProduct(product);
         orderItem.setQuantity(quantity);
         return orderItem;
+    }
+
+    public void setOrderDao(OrderDao orderDao) {
+        this.orderDao = orderDao;
+    }
+
+    public void setProductService(ProductService productService) {
+        this.productService = productService;
     }
 }

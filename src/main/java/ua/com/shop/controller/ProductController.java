@@ -16,17 +16,16 @@ import java.util.List;
 @RequestMapping("/products")
 public class ProductController {
 
+    private static final String PRODUCTS = "products";
+    private static final String PRODUCT_INFOS = "productInfos";
+    private static final String CREATE_PRODUCT_DTO = "createProductDto";
     private ProductService productService;
-
-    public ProductController(ProductService productService) {
-        this.productService = productService;
-    }
 
     @GetMapping
     public String getAllProducts(Model model) {
-        List<Product> products = productService.getAll();
+        final List<Product> products = productService.getAll();
 
-        model.addAttribute("products", products);
+        model.addAttribute(PRODUCTS, products);
         return "products";
     }
 
@@ -44,17 +43,17 @@ public class ProductController {
 
     @GetMapping("/additionalInfo")
     public String getAdditionalInfo(Model model) {
-        List<ProductInfo> productInfos = productService.getAllProductsWithTotalOrderedQuantity();
+        final List<ProductInfo> productInfos = productService.getAllProductsWithTotalOrderedQuantity();
 
-        model.addAttribute("productInfos", productInfos);
+        model.addAttribute(PRODUCT_INFOS, productInfos);
         return "/productInfos";
     }
 
     @GetMapping("/createProduct")
     public String getCreateProductPage(Model model) {
-        CreateProductDto createProductDto = new CreateProductDto();
+        final CreateProductDto createProductDto = new CreateProductDto();
 
-        model.addAttribute("createProductDto", createProductDto);
+        model.addAttribute(CREATE_PRODUCT_DTO, createProductDto);
         return "/createProduct";
     }
 
@@ -62,5 +61,9 @@ public class ProductController {
     public String createProduct(CreateProductDto dto) {
         productService.addProduct(dto.getName(), dto.getPrice(), ProductStatus.get(dto.getStatus()));
         return "redirect:/products";
+    }
+
+    public void setProductService(ProductService productService) {
+        this.productService = productService;
     }
 }

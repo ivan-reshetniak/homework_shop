@@ -17,40 +17,40 @@ import java.util.List;
 @RequestMapping("/orders")
 public class OrderController {
 
+    private static final String ORDERS = "orders";
+    private static final String ORDER_INFOS = "orderInfos";
+    private static final String CREATE_ORDER_DTO = "createOrderDto";
+    private static final String MAP = "map";
+    private static final String PRODUCTS = "products";
     private ProductService productService;
     private OrderService orderService;
 
-    public OrderController(ProductService productService, OrderService orderService) {
-        this.productService = productService;
-        this.orderService = orderService;
-    }
-
     @GetMapping
     public String getAllOrders(Model model) {
-        List<Order> orders = orderService.getAll();
+        final List<Order> orders = orderService.getAll();
 
-        model.addAttribute("orders", orders);
+        model.addAttribute(ORDERS, orders);
         return "/orders";
     }
 
     @GetMapping("/additionalInfo")
     public String getOrdersAdditionalInfo(Model model) {
-        List<OrderInfo> orderInfos = orderService.getOrdersInformation();
+        final List<OrderInfo> orderInfos = orderService.getOrdersInformation();
 
-        model.addAttribute("orderInfos", orderInfos);
+        model.addAttribute(ORDER_INFOS, orderInfos);
         return "/orderInfo";
     }
 
     @GetMapping("/createOrder")
     public String createOrderPage(Model model) {
-        List<Product> products = productService.getAll();
-        CreateOrderDto createOrderDto = new CreateOrderDto();
+        final List<Product> products = productService.getAll();
+        final CreateOrderDto createOrderDto = new CreateOrderDto();
 
         products.forEach(product -> createOrderDto.getProductIdAndQuantity().put((int) product.getId(), 0));
 
-        model.addAttribute("createOrderDto", createOrderDto);
-        model.addAttribute("map", createOrderDto.getProductIdAndQuantity());
-        model.addAttribute("products", products);
+        model.addAttribute(CREATE_ORDER_DTO, createOrderDto);
+        model.addAttribute(MAP, createOrderDto.getProductIdAndQuantity());
+        model.addAttribute(PRODUCTS, products);
         return "/createOrder";
     }
 
@@ -59,5 +59,13 @@ public class OrderController {
         orderService.addOrder(dto.getProductIdAndQuantity());
         System.out.println(dto.getProductIdAndQuantity());
         return "redirect:/orders";
+    }
+
+    public void setProductService(ProductService productService) {
+        this.productService = productService;
+    }
+
+    public void setOrderService(OrderService orderService) {
+        this.orderService = orderService;
     }
 }
