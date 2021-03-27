@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--<root xmlns="http://java.sun.com/JSP/Page" version="2.0"/>-->
+<project name="shop">
+
+  <property name="spring-boot.version">2.4.4</property>
+  <property name="start-class">ua.com.shop.Application</property>
+
+  <path id="compile.classpath">
+    <fileset dir="target/libs">
+      <include name="*.jar"/>
+    </fileset>
+  </path>
+
+  <target name="clean">
+    <delete dir="target"/>
+  </target>
+
+  <target name="libs" depends="clean">
+    <exec dir="." executable="sh">
+      <arg line="-c 'mvn clean dependency:copy-dependencies'"/>
+    </exec>
+  </target>
+
+  <target name="compile" depends="libs">
+    <mkdir dir="target/classes"/>
+    <javac srcdir="src/main/java" destdir="target/classes">
+      <classpath refid="compile.classpath"/>
+    </javac>
+  </target>
+
+  <target name="war" depends="compile">
+    <war destfile="target/${ant.project.name}.war" basedir="target/classes" needxmlfile="false" compress="false">
+      <lib dir="target/libs"/>
+      <mappedresources>
+        <fileset dir="target/classes"/>
+        <globmapper from="*" to="WEB-INF/classes/*"/>
+      </mappedresources>
+      <mappedresources>
+        <fileset dir="src/main/resources" erroronmissingdir="false"/>
+        <globmapper from="*" to="WEB-INF/classes/*"/>
+      </mappedresources>
+      <mappedresources>
+        <fileset dir="target/libs">
+          <include name="ecj-3.18.0.jar"/>
+          <include name="jakarta.el-3.0.3.jar"/>
+          <include name="tomcat-embed-core-9.0.44.jar"/>
+          <include name="tomcat-embed-el-9.0.44.jar"/>
+          <include name="tomcat-embed-jasper-9.0.44.jar"/>
+          <include name="tomcat-embed-websocket-9.0.44.jar"/>
+        </fileset>
+        <globmapper from="*" to="WEB-INF/lib-provided/*"/>
+      </mappedresources>
+      <zipfileset src="target/libs/spring-boot-loader-${spring-boot.version}.jar"/>
+      <manifest>
+        <attribute name="Main-Class" value="org.springframework.boot.loader.WarLauncher"/>
+        <attribute name="Start-Class" value="${start-class}"/>
+      </manifest>
+    </war>
+  </target>
+
+</project>
